@@ -1,12 +1,18 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/photo_5910395919155704695_y.jpg";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../Providers/AuthProvider";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 const Navbar = () => {
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme !== null ? savedTheme : "light";
   });
   const [nav, setNav] = useState(false);
+  const { user, logOut } = useContext(AuthContext);
 
   const handleToggle = (e) => {
     const selectedTheme = e.target.checked ? "dark" : "light";
@@ -17,6 +23,24 @@ const Navbar = () => {
   useEffect(() => {
     document.querySelector("html").setAttribute("data-theme", theme);
   }, [theme]);
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        MySwal.fire({
+          title: "Good job!",
+          text: "LogOut Succesfully",
+          icon: "success",
+        });
+      })
+      .catch((error) => {
+        MySwal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${error.message}`,
+        });
+      });
+  };
   return (
     <header className=" p-5 mb-4 rounded-2xl sticky top-0">
       <div className="flex">
@@ -94,35 +118,46 @@ const Navbar = () => {
               <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
             </svg>
           </label>
-          <Link to="/login">
-            <button className="btn">Login</button>
-          </Link>
+          {user ? (
+            <button onClick={handleLogOut} className="btn">
+              Logout
+            </button>
+          ) : (
+            <Link to="/login">
+              <button className="btn">Login</button>
+            </Link>
+          )}
         </div>
         <div className="dropdown dropdown-end my-auto ml-auto flex text-black dark:text-slate-950 font-bold p-1 rounded lg:rounded-xl lg:px-5 lg:py-2">
-          <div></div>
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-              />
-            </div>
+          <div>
+            <button className="btn">My Profile</button>
           </div>
           <ul
             tabIndex={0}
-            className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+            className="mt-16 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
           >
             <li>
-              <a className="justify-between">Profile</a>
+              <a className="justify-between">Add Volunteer Post</a>
             </li>
             <li>
-              <a>Logout</a>
+              <a>Manage My Post</a>
             </li>
           </ul>
+        </div>
+        <div className="mt-2">
+          {user ? (
+            <img
+              alt=""
+              className="w-12 h-12 rounded-full ring-2 ring-offset-4 dark:bg-gray-500 dark:ring-violet-600 dark:ring-offset-gray-100"
+              src={user.photoURL}
+            />
+          ) : (
+            <img
+              alt=""
+              className="w-12 h-10 rounded-full ring-2 ring-offset-4 dark:bg-gray-500 dark:ring-violet-600 dark:ring-offset-gray-100"
+              src="https://source.unsplash.com/40x40/?portrait?3"
+            />
+          )}
         </div>
       </div>
       {nav && (

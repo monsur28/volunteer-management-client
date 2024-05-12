@@ -1,16 +1,58 @@
 import { IoEyeOutline } from "react-icons/io5";
 import { FaRegEyeSlash } from "react-icons/fa";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Providers/AuthProvider";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 const Login = () => {
   const [showPass, setShowPass] = useState(false);
+  const { loginUser, googleSignIn, gitHubSignIn } = useContext(AuthContext);
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+    loginUser(email, password)
+      .then(() => {
+        MySwal.fire({
+          title: "Good job!",
+          text: "Login Succesfully",
+          icon: "success",
+        });
+        navigate(location?.state ? location.state : "/");
+      })
+      .catch((error) => {
+        MySwal.fire({
+          icon: "warning",
+          title: "Oops...",
+          text: `${error.message}`,
+        });
+      });
+  };
+  const handleGoogleLogIn = () => {
+    googleSignIn()
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleGithub = () => {
+    gitHubSignIn()
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   return (
     <div>
@@ -26,7 +68,10 @@ const Login = () => {
                 </p>
               </div>
               <div className="mt-7 flex flex-col gap-2">
-                <button className="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
+                <button
+                  onClick={handleGithub}
+                  className="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60"
+                >
                   <img
                     src="https://www.svgrepo.com/show/512317/github-142.svg"
                     alt="GitHub"
@@ -34,11 +79,14 @@ const Login = () => {
                   />
                   Continue with GitHub
                 </button>
-                <button className="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
+                <button
+                  onClick={handleGoogleLogIn}
+                  className="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60"
+                >
                   <img
                     src="https://www.svgrepo.com/show/475656/google-color.svg"
                     alt="Google"
-                    className="h-[18px] w-[18px] "
+                    className="h-[18px] w-[18px]"
                   />
                   Continue with Google
                 </button>
