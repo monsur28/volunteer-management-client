@@ -154,7 +154,8 @@ const Navbar = ({ photoUrl }) => {
             <img
               alt=""
               className="w-12 h-10 rounded-full ring-2 ring-offset-4 dark:bg-gray-500 dark:ring-violet-600 dark:ring-offset-gray-100"
-              src={photoUrl}
+              src={user.photoURL}
+              title={user.displayName}
             />
           ) : (
             <img

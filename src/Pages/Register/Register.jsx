@@ -2,11 +2,10 @@ import { useContext, useState } from "react";
 import background from "../../assets/background.svg";
 import logo from "../../assets/photo_5910395919155704695_y.jpg";
 import { useForm } from "react-hook-form";
-
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 const MySwal = withReactContent(Swal);
 const Register = () => {
