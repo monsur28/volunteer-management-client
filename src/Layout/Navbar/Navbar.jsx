@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 const MySwal = withReactContent(Swal);
-const Navbar = () => {
+const Navbar = ({ photoUrl }) => {
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme !== null ? savedTheme : "light";
@@ -79,23 +79,26 @@ const Navbar = () => {
                 Home
               </li>
             </NavLink>
-            <NavLink
-              to="/needVolunteer"
-              style={({ isActive }) => ({
-                color: isActive ? "rgb(107, 33, 168)" : "#000",
-                textDecoration: "none",
-              })}
-            >
-              <li className="mr-10 p-1 border-2 border-transparent hover:text-black hover:border-purple-500 hover:bg-white rounded">
-                Need Volunteer
-              </li>
-            </NavLink>
+            {user && (
+              <NavLink
+                to="/needVolunteer"
+                style={({ isActive }) => ({
+                  color: isActive ? "rgb(107, 33, 168)" : "#000",
+                  textDecoration: "none",
+                })}
+              >
+                <li className="mr-10 p-1 border-2 border-transparent hover:text-black hover:border-purple-500 hover:bg-white rounded">
+                  Need Volunteer
+                </li>
+              </NavLink>
+            )}
           </ul>
         </div>
-        <div className="flex ml-[450px] justify-center items-center">
+        <div className="flex ml-[350px] items-center">
           <label className="swap swap-rotate mr-5">
             <input
               type="checkbox"
+              className="border-none fill-none"
               onChange={handleToggle}
               checked={theme === "light" ? false : true}
             />
@@ -118,15 +121,17 @@ const Navbar = () => {
               <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
             </svg>
           </label>
-          {user ? (
-            <button onClick={handleLogOut} className="btn">
-              Logout
-            </button>
-          ) : (
-            <Link to="/login">
-              <button className="btn">Login</button>
-            </Link>
-          )}
+          <div className="ml-10">
+            {user ? (
+              <button onClick={handleLogOut} className="btn">
+                Logout
+              </button>
+            ) : (
+              <Link to="/login">
+                <button className="btn">Login</button>
+              </Link>
+            )}
+          </div>
         </div>
         <div className="dropdown dropdown-end my-auto ml-auto flex text-black dark:text-slate-950 font-bold p-1 rounded lg:rounded-xl lg:px-5 lg:py-2">
           <div>
@@ -134,7 +139,7 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="mt-16 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+            className="z-[0] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
           >
             <li>
               <a className="justify-between">Add Volunteer Post</a>
@@ -148,8 +153,8 @@ const Navbar = () => {
           {user ? (
             <img
               alt=""
-              className="w-12 h-12 rounded-full ring-2 ring-offset-4 dark:bg-gray-500 dark:ring-violet-600 dark:ring-offset-gray-100"
-              src={user.photoURL}
+              className="w-12 h-10 rounded-full ring-2 ring-offset-4 dark:bg-gray-500 dark:ring-violet-600 dark:ring-offset-gray-100"
+              src={photoUrl}
             />
           ) : (
             <img
