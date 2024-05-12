@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 const MySwal = withReactContent(Swal);
-const Navbar = ({ photoUrl }) => {
+const Navbar = () => {
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme !== null ? savedTheme : "light";
@@ -142,7 +142,9 @@ const Navbar = ({ photoUrl }) => {
             className="z-[0] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
           >
             <li>
-              <a className="justify-between">Add Volunteer Post</a>
+              <Link to="/addVolunteerPost" className="justify-between">
+                Add Volunteer Post
+              </Link>
             </li>
             <li>
               <a>Manage My Post</a>
