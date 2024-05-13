@@ -2,6 +2,10 @@ import { useContext, useState } from "react";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { AuthContext } from "../../Providers/AuthProvider";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 const AddVolunteerPost = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -14,20 +18,40 @@ const AddVolunteerPost = () => {
     const description = form.description.value;
     const category = form.category.value;
     const location = form.location.value;
+    const volunteerNeed = form.volunteerNeed.value;
     const date = form.date.value;
-    const name = user?.email;
+    const name = user?.displayName;
     const email = user?.email;
+    console.log(thumbnail);
     const newVoluteerPost = {
       thumbnail,
       posttitle,
       description,
       category,
       location,
+      volunteerNeed,
       date,
       name,
       email,
     };
-    console.log(newVoluteerPost);
+    fetch("http://localhost:5000/volunteerPost", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newVoluteerPost),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insertedId) {
+          MySwal.fire({
+            title: "Good job!",
+            text: "Volunteer Post Added Succesfully",
+            icon: "success",
+          });
+        }
+      });
   };
   return (
     <div>
@@ -36,31 +60,20 @@ const AddVolunteerPost = () => {
       </h2>
       <section className="p-6 dark:bg-gray-100 dark:text-gray-900">
         <form
-          onClick={handleAddPost}
-          className="container flex flex-col mx-auto space-y-12"
+          onSubmit={handleAddPost}
+          className="container flex flex-col space-y-12 dark:bg-gray-200"
         >
-          <fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm dark:bg-gray-50">
-            <div className="space-y-2 col-span-full lg:col-span-1">
-              <p className="font-medium text-xl">Voluteer Inormation</p>
-              <p className="text-base">
-                At our organization, we deeply value the contribution of
-                volunteers in our mission to create positive change in our
-                community. Volunteers play a crucial role in supporting our
-                various programs and initiatives, helping us to reach our goals
-                and make a meaningful impact.
-              </p>
-            </div>
-            <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
-              <div className="col-span-full sm:col-span-3">
-                <label htmlFor="firstname" className="text-sm">
-                  Thumbnail
-                </label>
+          <fieldset className="grid grid-cols-2 gap-6 p-6 rounded-md shadow-sm ">
+            <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3 items-center">
+              <div className="col-span-full sm:col-span-3 ">
+                <label className="text-sm">Thumbnail</label>
                 <input
                   id="thumbnail"
-                  type="text"
                   name="thumbnail"
+                  type="text"
+                  required
                   placeholder="Thumbnail"
-                  className="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300"
+                  className="w-full mt-2 rounded-md dark:text-gray-400 focus:ring p-4 focus:ring-opacity-75  focus:dark:ring-violet-600 border border-black dark:border-gray-300"
                 />
               </div>
               <div className="col-span-full sm:col-span-3">
@@ -69,10 +82,11 @@ const AddVolunteerPost = () => {
                 </label>
                 <input
                   id="posttitle"
-                  type="text"
                   name="posttitle"
+                  type="text"
+                  required
                   placeholder="Post Title"
-                  className="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300"
+                  className="w-full mt-2  rounded-md p-4 focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
                 />
               </div>
               <div className="col-span-full ">
@@ -93,6 +107,7 @@ const AddVolunteerPost = () => {
                   className="w-full p-4 mt-2 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
                 >
                   <option>Select One</option>
+                  <option>Environmental Conservation</option>
                   <option>Healthcare</option>
                   <option>Education</option>
                   <option>Social Service</option>
@@ -124,56 +139,50 @@ const AddVolunteerPost = () => {
                   className="w-full p-4 mt-2 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
                 />
               </div>
-            </div>
-          </fieldset>
-          <fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm dark:bg-gray-50">
-            <div className="space-y-2 col-span-full lg:col-span-1">
-              <p className="font-medium text-xl">Organizer Information</p>
-              <p className="text-base">
-                Welcome to the Organizer Profile section! This is your space to
-                showcase your involvement, contributions, and passion for
-                organizing volunteer opportunities and making a difference in
-                your community.
-              </p>
-            </div>
-            <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
               <div className="col-span-full sm:col-span-3">
-                <label htmlFor="username" className="text-sm">
-                  Username
+                <label htmlFor="volunteerNeed" className="text-sm">
+                  Volunteer Need
                 </label>
                 <input
-                  id="username"
-                  type="text"
-                  name="name"
-                  defaultValue={user.displayName}
-                  readOnly
-                  placeholder="Username"
-                  className="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300"
+                  id="volunteerNeed"
+                  type="number"
+                  name="volunteerNeed"
+                  required
+                  placeholder="Volunteer Need"
+                  className="w-full p-4 mt-2 rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 border border-black dark:border-gray-300"
                 />
               </div>
-              <div className="col-span-full sm:col-span-3">
-                <label htmlFor="website" className="text-sm">
+              <div className="col-span-full sm:col-span-3 ">
+                <label className="text-slate-900 dark:text-slate-500">
                   Email
                 </label>
                 <input
                   id="email"
-                  type="email"
+                  name="email"
                   defaultValue={user.email}
-                  readOnly
-                  placeholder="Email"
-                  className="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-violet-600 dark:border-gray-300"
+                  type="email"
+                  disabled
+                  placeholder="email"
+                  className="w-full border border-black mt-2 rounded-md focus:ring p-4 focus:ring-opacity-75 dark:text-gray-500 focus:dark:ring-violet-600 dark:border-gray-300"
                 />
               </div>
-              <div className="col-span-full">
-                <div className="flex items-center space-x-2">
-                  <button
-                    type="button"
-                    className="btn btn-block bg-green-400 text-black text-wpx-4 py-2 border rounded-md dark:border-gray-800"
-                  >
-                    Add Post
-                  </button>
-                </div>
+              <div className="col-span-full sm:col-span-3">
+                <label htmlFor="lastname" className="text-sm">
+                  UserName
+                </label>
+                <input
+                  id="username"
+                  defaultValue={user.displayName}
+                  name="username"
+                  type="text"
+                  disabled
+                  placeholder="username"
+                  className="w-full mt-2 rounded-md p-4 focus:ring focus:ring-opacity-75 dark:text-gray-500 border border-black focus:dark:ring-violet-600 dark:border-gray-300"
+                />
               </div>
+              <button className="btn btn-block col-span-6 bg-teal-500">
+                Add Product
+              </button>
             </div>
           </fieldset>
         </form>
