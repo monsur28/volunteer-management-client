@@ -6,7 +6,7 @@ const NeedVolunteer = () => {
   const [volunteers, setVolunteers] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/volunteerPost")
+    fetch("https://b9a11-volunteer-management-server.vercel.app/volunteerPost")
       .then((res) => res.json())
       .then((data) => {
         setVolunteers(data);

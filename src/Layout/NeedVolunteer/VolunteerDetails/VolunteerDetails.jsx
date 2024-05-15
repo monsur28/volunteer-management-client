@@ -43,13 +43,16 @@ const VolunteerDetails = () => {
       orgonaizername,
       orgonaizeremail,
     };
-    fetch("http://localhost:5000/beAVolunteerPost", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(newVoluteerPost),
-    })
+    fetch(
+      "https://b9a11-volunteer-management-server.vercel.app/beAVolunteerPost",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(newVoluteerPost),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

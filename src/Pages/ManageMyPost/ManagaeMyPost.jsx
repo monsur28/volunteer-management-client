@@ -13,7 +13,9 @@ const ManagaeMyPost = () => {
   const [myitem, setMyItem] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/volunteerPost/${user?.email}`)
+    fetch(
+      `https://b9a11-volunteer-management-server.vercel.app/volunteerPost/${user?.email}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setMyItem(data);
@@ -31,9 +33,12 @@ const ManagaeMyPost = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/volunteerPost/${_id}`, {
-          method: "DELETE",
-        })
+        fetch(
+          `https://b9a11-volunteer-management-server.vercel.app/volunteerPost/${_id}`,
+          {
+            method: "DELETE",
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             console.log(data);

@@ -58,7 +58,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/volunteerPost/${params.id}`),
+          fetch(
+            `https://b9a11-volunteer-management-server.vercel.app/volunteerPost/${params.id}`
+          ),
       },
     ],
   },
