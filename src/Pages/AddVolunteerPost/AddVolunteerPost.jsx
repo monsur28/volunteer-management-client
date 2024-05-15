@@ -181,7 +181,7 @@ const AddVolunteerPost = () => {
                 />
               </div>
               <button className="btn btn-block col-span-6 bg-teal-500">
-                Add Product
+                Add Volunteer
               </button>
             </div>
           </fieldset>

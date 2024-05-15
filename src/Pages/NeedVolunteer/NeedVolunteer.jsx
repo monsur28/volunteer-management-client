@@ -41,7 +41,7 @@ const NeedVolunteer = () => {
                 </div>
                 <Link to={`/needVolunteer/${myPost._id}`}>
                   <button className="btn btn-block bg-orange-400 flex items-center justify-center p-3 font-semibold tracking-wide rounded-md dark:bg-violet-600 dark:text-gray-50">
-                    View Details
+                    Be a Volunteer
                   </button>
                 </Link>
               </div>

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Card } from "flowbite-react";
+
 const NeedVolunteer = () => {
   const [volunteers, setVolunteers] = useState([]);
 
@@ -37,6 +39,9 @@ const NeedVolunteer = () => {
           </>
         ))}
       </div>
+      <Link to="/needVolunteer">
+        <button className="btn mt-3 btn-block bg-amber-400">See All</button>
+      </Link>
     </div>
   );
 };
