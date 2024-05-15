@@ -14,7 +14,7 @@ const AddVolunteerPost = () => {
     e.preventDefault();
     const form = e.target;
     const thumbnail = form.thumbnail.value;
-    const posttitle = form.posttitle.value;
+    const postTitle = form.postTitle.value;
     const description = form.description.value;
     const category = form.category.value;
     const location = form.location.value;
@@ -25,7 +25,7 @@ const AddVolunteerPost = () => {
     console.log(thumbnail);
     const newVoluteerPost = {
       thumbnail,
-      posttitle,
+      postTitle,
       description,
       category,
       location,
@@ -81,8 +81,8 @@ const AddVolunteerPost = () => {
                   Post Title
                 </label>
                 <input
-                  id="posttitle"
-                  name="posttitle"
+                  id="postTitle"
+                  name="postTitle"
                   type="text"
                   required
                   placeholder="Post Title"

@@ -13,11 +13,11 @@ const NeedVolunteer = () => {
   return (
     <div>
       <h2 className="text-center mt-12 text-4xl">Need A Volunteer?</h2>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-10 h-full">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-10">
         {volunteers.map((volunteer) => (
           <>
             <Card
-              className=""
+              className="min-h-min"
               imgAlt="Meaningful alt text for an image that is not purely decorative"
               imgSrc={volunteer.thumbnail}
             >
@@ -29,6 +29,7 @@ const NeedVolunteer = () => {
                 Deadline :{" "}
                 <span className="text-green-400">{volunteer.date}</span>
               </h2>
+              <h2>Volunteer Need : {volunteer.volunteerNeed}</h2>
               <button className="btn btn-block bg-teal-500 font-semibold">
                 View Details
               </button>
