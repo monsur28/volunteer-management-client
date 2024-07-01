@@ -50,13 +50,14 @@ Set up environment variables:
 ### Running Locally
 
 Start the development server:
-```bash
-npm start
+    ```bash
+    npm install
+    ```
 
 Open your web browser and navigate to http://localhost:3000.
 
-Contributing
+## Contributing
 We welcome contributions to enhance the functionality and user experience of the Volunteer Management Website. If you have any ideas, improvements, or bug fixes, feel free to fork the repository, create a new branch, and submit a pull request.
 
-License
+## License
 This project is licensed under the MIT License. See the LICENSE file for more details.
